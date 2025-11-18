@@ -9,7 +9,6 @@ export default function Login() {
     password: "",
   });
 
-  const [token, setToken] = useState("");
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
@@ -25,11 +24,13 @@ export default function Login() {
         "http://localhost:5000/api/auth/login",
         form
       );
+
       const token = res.data.token;
       const role = res.data.user.role;
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", role);
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", res.data.user.role);
+      localStorage.setItem("fullname", res.data.user.fullname);
 
       navigate("/dashboard");
     } catch (err) {
@@ -49,6 +50,9 @@ export default function Login() {
       }}
     >
       <h2>Login</h2>
+
+      {message && <p>{message}</p>}
+
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -59,6 +63,7 @@ export default function Login() {
           required
         />
         <br />
+
         <input
           type="password"
           name="password"
@@ -68,6 +73,7 @@ export default function Login() {
           required
         />
         <br />
+
         <button type="submit">Login</button>
       </form>
 

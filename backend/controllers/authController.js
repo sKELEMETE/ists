@@ -1,6 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { logAction } = require("../src/utils/logger");
 
 // Register a new user
 const registerUser = (req, res) => {
@@ -22,6 +23,7 @@ const registerUser = (req, res) => {
       });
     }
   );
+  logAction(result.insertId, "User registered");
 };
 
 // Login user
@@ -57,11 +59,12 @@ const loginUser = (req, res) => {
       token,
       user: {
         id: user.id,
-        name: user.name,
+        name: user.fullname,
         email: user.email,
         role: user.role,
       },
     });
+    logAction(user.id, "User logged in");
   });
 };
 

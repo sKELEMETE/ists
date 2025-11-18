@@ -4,14 +4,18 @@ const verifyRole = (roles) => (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) return res.status(403).json({ error: "No token provided" });
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(401).json({ error: "Unauthorized" });
-    if (!roles.includes(decoded.role))
-      return res.status(403).json({ error: "Access denied" });
+  jwt.verify(
+    token,
+    process.env.JWT_SECRET || "your_secret_key",
+    (err, decoded) => {
+      if (err) return res.status(401).json({ error: "Unauthorized" });
+      if (!roles.includes(decoded.role))
+        return res.status(403).json({ error: "Access denied" });
 
-    req.user = decoded;
-    next();
-  });
+      req.user = decoded;
+      next();
+    }
+  );
 };
 
 function verifyToken(req, res, next) {
