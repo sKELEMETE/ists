@@ -5,6 +5,7 @@ const { verifyToken } = require("./middleware/roleMiddleware");
 const productRoutes = require("./routes/productRoutes");
 const salesRoutes = require("./routes/salesRoutes");
 const logsRoutes = require("./routes/logsRoutes");
+const incidentsRoutes = require("./routes/incidentsRoutes");
 
 const app = express(); // Create Express app instance
 
@@ -31,4 +32,5 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/logs", logsRoutes);
+app.use("/api/incidents", incidentsRoutes);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

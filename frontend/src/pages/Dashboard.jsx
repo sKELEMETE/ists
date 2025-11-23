@@ -1,7 +1,7 @@
-// Dashboard.jsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import LogoutButton from "../components/logout";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -71,6 +71,7 @@ export default function Dashboard() {
       >
         Logs
       </button>
+      <LogoutButton />
     </div>
   );
 }

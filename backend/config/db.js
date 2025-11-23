@@ -1,20 +1,20 @@
 const mysql = require("mysql2");
+const dotenv = require("dotenv");
+dotenv.config();
 
-// Create a connection to the database
-const db = mysql.createConnection({
-  host: "localhost", // Database host, usually localhost
-  user: "root", // Your MySQL username
-  password: "", // Your MySQL password
-  database: "ists", // Database name you will create
+const db = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "ists",
 });
 
-// Connect to the database
-db.connect((err) => {
+db.query("SELECT 1", (err, results) => {
   if (err) {
-    console.error("Database connection failed:", err);
+    console.log("DB connection failed");
     return;
   }
-  console.log("Connected to MySQL database");
+  console.log("DB connected");
 });
 
-module.exports = db; // Export connection to use in other files
+module.exports = db;

@@ -21,9 +21,9 @@ const registerUser = (req, res) => {
         message: "User registered successfully",
         userId: result.insertId,
       });
+      logAction(result.insertId, "User registered");
     }
   );
-  logAction(result.insertId, "User registered");
 };
 
 // Login user
