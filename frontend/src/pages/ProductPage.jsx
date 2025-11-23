@@ -13,6 +13,9 @@ export default function ProductPage() {
   const [form, setForm] = useState({ name: "", price: "", stock: "" });
   const [editId, setEditId] = useState(null);
 
+  const [noAccess, setNoAccess] = useState(false);
+  const role = localStorage.getItem("role");
+
   const load = async () => {
     const res = await getProducts();
     setProducts(res.data);
@@ -24,11 +27,18 @@ export default function ProductPage() {
 
   const submit = async (e) => {
     e.preventDefault();
+
+    if (role !== "admin") {
+      setNoAccess(true);
+      return;
+    }
+
     if (editId) {
       await updateProduct(editId, form);
     } else {
       await addProduct(form);
     }
+
     setForm({ name: "", price: "", stock: "" });
     setEditId(null);
     load();
@@ -77,6 +87,10 @@ export default function ProductPage() {
         />
         <button type="submit">{editId ? "Update" : "Add"}</button>
       </form>
+
+      {noAccess && (
+        <h1 style={{ color: "red", marginTop: "10px" }}>Admin Only</h1>
+      )}
 
       <table>
         <thead>
