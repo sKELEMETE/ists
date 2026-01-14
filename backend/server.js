@@ -6,6 +6,8 @@ const productRoutes = require("./routes/productRoutes");
 const salesRoutes = require("./routes/salesRoutes");
 const logsRoutes = require("./routes/logsRoutes");
 const incidentsRoutes = require("./routes/incidentsRoutes");
+const profileRoutes = require("./routes/profile");
+const categoryRoutes = require("./routes/categoryRoutes");
 
 const app = express(); // Create Express app instance
 
@@ -33,4 +35,6 @@ app.use("/api/products", productRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/logs", logsRoutes);
 app.use("/api/incidents", incidentsRoutes);
+app.use("/api/profiles", profileRoutes);
+app.use("/api/categories", categoryRoutes);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

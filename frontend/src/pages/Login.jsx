@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../assets/styles/Login.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -38,46 +39,84 @@ export default function Login() {
     }
   };
 
+  const [toggled, setToggled] = useState(false);
+  const handleToggle = () => {
+    setToggled(!toggled);
+  };
+
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <h2>Login</h2>
-
-      {message && <p>{message}</p>}
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
+    <div className="admin-login-container">
+      <div className={`admin-intro-text ${toggled ? "box-right" : "box-left"}`}>
+        <h1 className="admin-company-title">Storix</h1>
+        <img
+          src="src/assets/images/storix.png"
+          alt="Box Icon"
+          className="admin-company-icon"
         />
-        <br />
+        <div className="admin-text-content">
+          <h1>Web-Based Inventory and Sales Tracking System</h1>
+          <p>
+            This system provides role-based access, product management, stock
+            updates, and reports to improve business efficiency.
+          </p>
+          <img
+            src="src/assets/images/box.png"
+            alt="Box Icon"
+            className="admin-box-icon"
+          />
+        </div>
+      </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-        <br />
+      <div
+        className={`admin-login-form ${toggled ? "form-right" : "form-left"}`}
+      >
+        <div className="admin-form-content">
+          <form onSubmit={handleSubmit}>
+            <h2>Login</h2>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+            <br />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+            <br />
+            <button type="submit">Login</button>
+          </form>
 
-        <button type="submit">Login</button>
-      </form>
-
-      <button onClick={() => navigate("/register")}>To Register</button>
+          <p onClick={() => navigate("/register")} className="toggle-button">
+            Register
+          </p>
+          {message && (
+            <p
+              style={{
+                position: "absolute",
+                right: "5px",
+                top: "520px",
+                textAlign: "center",
+                color: "rgba(255, 0, 0, 1)",
+                border: "none",
+                cursor: "pointer",
+                borderRadius: "6px",
+                transition: "all 0.3s ease",
+                width: "100%",
+              }}
+            >
+              {message}
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

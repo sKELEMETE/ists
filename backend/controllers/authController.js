@@ -16,12 +16,35 @@ const registerUser = (req, res) => {
     sql,
     [fullname, email, hashedPassword, role || "cashier"],
     (err, result) => {
-      if (err) return res.status(500).json({ error: err.message });
+      if (err) {
+        // Handle duplicate email (MySQL error code 1062)
+        if (err.code === "ER_DUP_ENTRY") {
+          return res.status(409).json({ error: "Duplicate Email" });
+        }
+        return res.status(500).json({ error: err.message });
+      }
+
+      const userId = result.insertId;
+
+      // Generate JWT token
+      const token = jwt.sign(
+        { id: userId, role: role || "cashier", name: fullname },
+        "your_secret_key",
+        { expiresIn: "1h" }
+      );
+
       res.status(201).json({
         message: "User registered successfully",
-        userId: result.insertId,
+        token,
+        user: {
+          id: userId,
+          name: fullname,
+          email,
+          role: role || "cashier",
+        },
       });
-      logAction(result.insertId, "User registered");
+
+      logAction(userId, "User registered");
     }
   );
 };
